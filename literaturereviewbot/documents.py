@@ -22,10 +22,9 @@ def index_documents(query, abstract_arr, ids_arr: list | None = None):
     )
 
     docs = []
-    for i, abstract in enumerate(abstract_arr):
-        print(abstract)
+    for abstract in abstract_arr:
+        # print(abstract)
         docs.append(Document(page_content=abstract))
-        # ids.append(i)
 
     vector_store.add_documents(documents=docs, ids=ids_arr)
 
@@ -41,6 +40,3 @@ def retrieve_documents(query, vector_store):
 
     # Retrieve the most similar text
     return retriever.invoke(query)
-
-    # # show the retrieved document's content
-    # return retrieved_documents[0].page_content
