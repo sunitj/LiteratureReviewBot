@@ -1,4 +1,5 @@
 # LiteratureReviewBot
+
 Create a bot that scans pubmed literature and github for publications related to a topic and summarizes them in a table.
 
 ## Dependencies
@@ -12,5 +13,18 @@ ollama pull llama3.1
 Create a new virtual environment and install the dependencies by running the following commands:
 
 ```bash
-pip install -eU .
+conda create -n litrevbot python=3.12
+pip install pipx
+pipx install poetry
+conda activate litrevbot
+poetry install .
+```
+
+## Usage
+
+To run the bot, you can use the following command:
+
+```bash
+conda activate litrevbot
+python -m streamlit run app.py
 ```
