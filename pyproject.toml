@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "literaturereviewbot"
+version = "0.1.0"
+description = "provide summary of current scientific literature on a topic"
+authors = ["Sunit Jain <mail4sunit@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+langchain = "^0.2.14"
+langchain-ollama = "^0.1.1"
+streamlit = "^1.37.1"
+langchain-experimental = "^0.0.64"
+polars = "^1.5.0"
+watchdog = "^4.0.2"
+biopython = "^1.84"
+scikit-learn = "^1.5.1"
+langchain-community = "^0.2.12"
+faiss-cpu = "^1.8.0.post1"
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.29.5"
+ruff = "^0.6.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
