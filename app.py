@@ -31,13 +31,35 @@ with st.sidebar:
 
 
 ###
+kw_prompt = ChatPromptTemplate.from_messages(
+    [
+        (
+            "system",
+            """
+            You are an experienced professional biomedical researcher.
+            You will will be given a question or a statement to respond to.
+            Identify the keywords in the question or statement and return the keywords separated by commas.
+            """,
+        ),
+        (
+            "human",
+            "Use the given format to extract information from the following "
+            "input: {question}",
+        ),
+    ]
+)
+
+entity_chain = kw_prompt | .with_structured_output(Entities)
+entity_chain.invoke({"question": "Who are Nonna Lucia and Giovanni Caruso?"}).names
 
 template = """{prompt}
 Answer:
 """
-prompt = ChatPromptTemplate.from_template(template)
 model = OllamaLLM(model="llama3.1")
-chain = prompt | model
+kw_chain = kw_prompt | model
+
+research_prompt = ChatPromptTemplate.from_template(template)
+research_chain = research_prompt | model
 
 # Main content
 col1, col2 = st.columns(2)
