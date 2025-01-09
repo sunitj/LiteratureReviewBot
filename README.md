@@ -1,3 +1,7 @@
+```text
+Please note, this is just meant to be a PoC repo. Please DO NOT use it in production.
+```
+
 # LiteratureReviewBot
 
 Create a bot that scans pubmed literature and github for publications related to a topic and summarizes them in a table.
