@@ -42,7 +42,7 @@ def parse_article(pmid, details):
         abstract_text = details["PubmedArticle"][0]["MedlineCitation"]["Article"][
             "Abstract"
         ]["AbstractText"][0]
-    except:
+    except (KeyError, IndexError):
         return None
     ##################
     ## article details
@@ -71,7 +71,7 @@ def parse_article(pmid, details):
         pub_day = pub_date["Day"]
         pages = article["Pagination"].get("StartPage", "No pages")
         citation = f"{author_str}. {title}. {journal_title}. {pub_year} {pub_month} {pub_day};{journal_volume}({journal_issue}):{pages}. PMID: {pmid}."
-    except:
+    except (KeyError, IndexError):
         citation = f"{title}. {journal_title}. PMID: {pmid}."
 
     return citation, abstract_text

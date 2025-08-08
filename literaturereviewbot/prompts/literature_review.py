@@ -23,8 +23,8 @@ def generate_prompt(question):
     for i, doc in enumerate(documents):
         try:
             content = doc.page_content if hasattr(doc, "page_content") else ""
-        except:
-            print(doc)
+        except Exception as e:
+            print(f"Error processing document: {doc}, error: {e}")
             content = ""
             continue
         messages.append(

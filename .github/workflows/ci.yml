@@ -19,7 +19,7 @@ jobs:
         python-version: 3.12
 
     - name: Install Poetry
-      uses: snok/install-poetry@v1
+      uses: snok/install-poetry@v1.3.4
       with:
         virtualenvs-create: true
         virtualenvs-in-project: true
@@ -36,11 +36,7 @@ jobs:
       run: poetry install --no-interaction --no-root
 
     - name: Lint with ruff
-      run: |
-        poetry run ruff check .
+      run: poetry run ruff check .
 
     - name: Run smoke test
-      run: |
-        poetry run streamlit run app.py --server.port 8501 &
-        sleep 5
-        kill %1
+      run: timeout 5s poetry run streamlit run app.py --server.port 8501 --server.headless true
