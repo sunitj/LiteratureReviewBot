@@ -1,4 +1,3 @@
-import asyncio
 from literaturereviewbot import search
 from literaturereviewbot.documents import index_documents, retrieve_documents
 
@@ -27,8 +26,8 @@ async def generate_prompt(question):
     for i, doc in enumerate(documents):
         try:
             content = doc.page_content if hasattr(doc, "page_content") else ""
-        except Exception as e:
-            print(f"Error processing document: {doc}, error: {e}")
+        except Exception:
+            print(doc)
             content = ""
             continue
         messages.append(

@@ -45,7 +45,6 @@ async def fetch_details(client, pmid):
         return None
     except Exception as e:
         print(f"An error occurred for pmid {pmid}: {e}")
-
         return None
 
 def parse_article(pmid, xml_data):
@@ -113,7 +112,6 @@ async def query(query_text="scrna seq analysis methods"):
                 if citation and abstract:
                     citation_arr.append(citation)
                     abstract_arr.append(abstract)
-
 
     return citation_arr, abstract_arr, pmid_list
 
