@@ -2,6 +2,8 @@ import asyncio
 import httpx
 from datetime import datetime, timedelta
 
+PAGE_SIZE = 100
+
 async def query(query_text=""):
     """
     Search bioRxiv for a given query text.
@@ -47,7 +49,7 @@ async def query(query_text=""):
 
                 if query_text.lower() in title.lower() or query_text.lower() in abstract.lower():
                     authors = article.get('authors', [])
-                    author_str = ", ".join([f"{a['name']}" for a in authors])
+                    author_str = ", ".join([f"{a.get('name', '')}" for a in authors])
                     doi = article.get('doi', '')
                     date = article.get('date', '')
 
@@ -60,8 +62,11 @@ async def query(query_text=""):
             # bioRxiv API returns 100 results at a time. We need to paginate.
             # The 'count' in messages gives total results for the query.
             # 'cursor' is the starting point of the next page.
-            count = int(messages[0].get('count', 0))
-            cursor = int(messages[0].get('cursor', 0)) + 100
+            try:
+                count = int(messages[0].get('count', 0))
+                cursor = int(messages[0].get('cursor', 0)) + PAGE_SIZE
+            except (ValueError, TypeError):
+                break
 
             if cursor >= count:
                 break

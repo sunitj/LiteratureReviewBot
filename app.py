@@ -46,6 +46,10 @@ with col1:
     question = st.text_input("Enter your question here")
     if question:
         with st.spinner("Thinking..."):
+            # Streamlit runs the script from top to bottom on each interaction.
+            # For a simple, one-off async call like this, asyncio.run() is a
+            # pragmatic choice. For more complex apps, a different approach
+            # might be needed.
             prompt = asyncio.run(lit_review_prompt(question))
             answer = chain.invoke({"prompt": prompt})
             st.success("Done!")

@@ -74,7 +74,10 @@ def parse_article(pmid, xml_data):
             last_name = last_name_elem.text if last_name_elem is not None else ""
             fore_name = fore_name_elem.text if fore_name_elem is not None else ""
             if last_name:
-                authors.append(f"{last_name} {fore_name[0] if fore_name else ''}")
+                initial = ""
+                if fore_name:
+                    initial = fore_name[0]
+                authors.append(f"{last_name} {initial}")
         author_str = ", ".join(authors)
 
         journal_title_elem = article.find(".//Journal/Title")
