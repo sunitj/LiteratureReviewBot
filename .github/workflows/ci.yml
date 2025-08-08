@@ -39,4 +39,4 @@ jobs:
       run: poetry run ruff check .
 
     - name: Run smoke test
-      run: timeout 5s poetry run streamlit run app.py --server.port 8501 --server.headless true
+      run: timeout 5s poetry run streamlit run app.py --server.port 8501 --server.headless true || [ $? -eq 124 ]
