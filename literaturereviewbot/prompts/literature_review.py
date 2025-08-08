@@ -1,11 +1,15 @@
-from literaturereviewbot.search_pubmed import query as pubmed_query
+import asyncio
+from literaturereviewbot import search
 from literaturereviewbot.documents import index_documents, retrieve_documents
 
 
-def generate_prompt(question):
-    _, abstract_arr, pubmed_ids = pubmed_query(question)
+async def generate_prompt(question):
+    _, abstract_arr, ids = await search.query(question)
+    if not abstract_arr:
+        return "I don't have enough information to answer this question."
+
     vector_store = index_documents(
-        query=question, abstract_arr=abstract_arr, ids_arr=pubmed_ids
+        query=question, abstract_arr=abstract_arr, ids_arr=ids
     )
     documents = retrieve_documents(question, vector_store)
     messages = [
@@ -14,7 +18,7 @@ def generate_prompt(question):
             "content_type": "instructions",
             "content": """
              You are a professional biomedical researcher.
-             You will be given a series of article abstracts. 
+             You will be given a series of article abstracts.
              The information in your response should exclusively come from the content type 'abstracts'.
              If no relevant information is found in the abstracts, you can say 'I don't have enough information to answer this question'.
             """,

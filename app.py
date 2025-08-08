@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import asyncio
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_ollama.llms import OllamaLLM
 import streamlit as st
@@ -35,9 +36,9 @@ with st.sidebar:
 template = """{prompt}
 Answer:
 """
-prompt = ChatPromptTemplate.from_template(template)
+prompt_template = ChatPromptTemplate.from_template(template)
 model = OllamaLLM(model="llama3.1")
-chain = prompt | model
+chain = prompt_template | model
 
 # Main content
 col1, col2 = st.columns(2)
@@ -45,8 +46,8 @@ with col1:
     question = st.text_input("Enter your question here")
     if question:
         with st.spinner("Thinking..."):
-            prompt = lit_review_prompt(question)
-            answer = chain.invoke(prompt)
+            prompt = asyncio.run(lit_review_prompt(question))
+            answer = chain.invoke({"prompt": prompt})
             st.success("Done!")
         st.markdown(f"**Answer:** {answer}")
     else:
